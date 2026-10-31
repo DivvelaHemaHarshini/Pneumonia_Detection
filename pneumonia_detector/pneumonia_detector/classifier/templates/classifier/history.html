@@ -1,0 +1,60 @@
+{% extends 'classifier/base.html' %}
+
+{% block title %}Prediction History{% endblock %}
+
+{% block content %}
+<style>
+    .history-container h1 {
+        margin-bottom: 30px;
+    }
+    .history-item {
+        background-color: #f8f9fc;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        text-align: left;
+        transition: box-shadow 0.3s;
+    }
+    .history-item:hover {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    }
+    .history-item img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-right: 25px;
+    }
+    .history-details p {
+        margin: 5px 0;
+    }
+    .history-details .result {
+        font-weight: 600;
+        font-size: 1.1em;
+        color: #333;
+    }
+    .history-details .timestamp {
+        font-size: 0.9em;
+        color: #777;
+    }
+</style>
+
+<div class="history-container">
+    <h1>Your Prediction History</h1>
+    {% for item in history %}
+        <div class="history-item">
+            <img src="{{ item.image.url }}" alt="X-Ray Image">
+            <div class="history-details">
+                <p class="result">{{ item.prediction_result }}</p>
+                <p class="timestamp">Checked On: {{ item.timestamp|date:"F d, Y, P" }}</p>
+            </div>
+        </div>
+    {% empty %}
+        <p>You haven't made any predictions yet. Upload an image to get started!</p>
+        <a href="{% url 'classify_image' %}" class="primary-btn">Upload First Image</a>
+    {% endfor %}
+</div>
+{% endblock %}

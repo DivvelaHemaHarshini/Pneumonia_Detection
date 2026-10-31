@@ -1,0 +1,23 @@
+{% extends 'classifier/base.html' %}
+{% block title %}Welcome to PneumoDetect AI{% endblock %}
+
+{% block content %}
+<div style="text-align: center;">
+    {% if user.is_authenticated %}
+        <h1 style="font-size: 2.5em; color: #333;">Welcome Back, {{ user.username }}!</h1>
+        <p style="font-size: 1.1em; color: #555; max-width: 600px; margin: 20px auto 40px auto;">
+            Ready to continue your work? Select an analysis tool to get started.
+        </p>
+        <div style="display: flex; justify-content: center; gap: 20px;">
+            <a href="{% url 'classify_image' %}" class="primary-btn">Analyze X-Ray</a>
+            <a href="{% url 'classify_sound' %}" class="primary-btn">Analyze Sound</a>
+        </div>
+    {% else %}
+        <h1 style="font-size: 2.8em; color: #333;">AI-Powered Medical Analysis</h1>
+        <p style="font-size: 1.1em; color: #555; max-width: 600px; margin: 20px auto 40px auto;">
+            Join a community of professionals using cutting-edge deep learning to detect pneumonia and analyze respiratory sounds with speed and accuracy.
+        </p>
+        <a href="{% url 'account_signup' %}" class="primary-btn">Get Started for Free</a>
+    {% endif %}
+</div>
+{% endblock %}

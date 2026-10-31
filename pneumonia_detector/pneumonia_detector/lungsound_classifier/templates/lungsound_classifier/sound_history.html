@@ -1,0 +1,26 @@
+{% extends 'classifier/base.html' %}
+{% block title %}Lung Sound History{% endblock %}
+{% block content %}
+<style>
+    .history-container h1 { margin-bottom: 30px; }
+    .history-item { background-color: #f8f9fc; border: 1px solid #e9ecef; border-radius: 8px; margin-bottom: 15px; padding: 20px; display: flex; align-items: center; text-align: left; }
+    .history-item audio { margin-right: 25px; }
+    .history-details .result { font-weight: 600; font-size: 1.1em; color: #333; }
+    .history-details .timestamp { font-size: 0.9em; color: #777; }
+</style>
+<div class="history-container">
+    <h1>Lung Sound History</h1>
+    {% for item in history %}
+        <div class="history-item">
+            <audio controls><source src="{{ item.audio_file.url }}"></audio>
+            <div class="history-details">
+                <p class="result">{{ item.prediction_result }}</p>
+                <p class="timestamp">Checked On: {{ item.timestamp|date:"F d, Y, P" }}</p>
+            </div>
+        </div>
+    {% empty %}
+        <p>You have no lung sound prediction history yet.</p>
+        <a href="{% url 'classify_sound' %}" class="primary-btn">Analyze First Sound</a>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% load static %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+
+    <title>{% block title %}PneumoDetect AI{% endblock %}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: white;
+            padding: 15px 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .navbar .logo {
+            font-weight: 600;
+            font-size: 24px;
+            color: #764ba2;
+            text-decoration: none;
+        }
+
+        .navbar a {
+            color: #555;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navbar a:hover, .navbar a.active {
+            background-color: #f0e6ff;
+            color: #764ba2;
+        }
+        
+        .navbar .right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .navbar .welcome-text {
+            color: #666;
+        }
+
+        .main-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 40px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .primary-btn {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .primary-btn:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{% url 'home' %}" class="logo">PneumoDetect AI</a>
+        <div class="right">
+            {% if user.is_authenticated %}
+                <a href="{% url 'classify_image' %}">X-Ray Analysis</a>
+                <a href="{% url 'classify_sound' %}">Sound Analysis</a>
+                <a href="{% url 'prediction_history' %}">X-Ray History</a>
+                <a href="{% url 'sound_history' %}">Sound History</a>
+                <span class="welcome-text">Hi, {{ user.username }}!</span>
+                <a href="{% url 'account_logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'account_login' %}">Login</a>
+                <a href="{% url 'account_signup' %}" class="primary-btn" style="padding: 8px 15px; margin-top: 0;">Sign Up</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="main-container">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

@@ -1,0 +1,38 @@
+{% extends 'classifier/base.html' %}
+{% block content %}
+<style>
+    .result-container h1 { font-size: 2.2em; margin-bottom: 20px; }
+    .result-text { font-size: 1.8em; font-weight: 700; margin-bottom: 30px; } /* Removed hardcoded color here */
+    .audio-player { margin-top: 20px; }
+</style>
+
+<div class="result-container">
+    <h1>Analysis Complete</h1>
+    
+    <h2 class="result-text" style="color: {% if 'Normal' in prediction %}#28a745{% else %}#dc3545{% endif %};">
+        {{ prediction }}
+    </h2>
+    
+    {% if uploaded_audio_url %}
+        <h3>Your Uploaded Audio:</h3>
+        <audio controls class="audio-player">
+            <source src="{{ uploaded_audio_url }}" type="audio/wav">
+            Your browser does not support the audio element.
+        </audio>
+    {% endif %}
+
+    <br><br>
+
+    <div style="margin-top: 30px;">
+        <a href="{% url 'generate_sound_report' result=result_type|default:'Normal' lang='english' %}" class="primary-btn">
+            Get Report (English)
+        </a>
+        <a href="{% url 'generate_sound_report' result=result_type|default:'Normal' lang='telugu' %}" class="primary-btn" style="background: linear-gradient(45deg, #764ba2, #667eea);">
+            తెలుగు నివేదిక
+        </a>
+    </div>
+    <a href="{% url 'classify_sound' %}" class="primary-btn" style="background: #ccc; color: #333; margin-left: 20px;">
+        New Analysis
+    </a>
+</div>
+{% endblock %}

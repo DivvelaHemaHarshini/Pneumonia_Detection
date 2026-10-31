@@ -1,0 +1,55 @@
+{% extends 'classifier/base.html' %}
+{% block title %}Diagnostic Report{% endblock %}
+
+{% block content %}
+<style>
+    .report-card {
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        background-color: #f9f9f9;
+        max-width: 700px;
+        margin: 0 auto;
+        border: 2px solid {{ color }};
+    }
+    .report-card h1 {
+        font-size: 2.5em;
+        color: {{ color }};
+        margin-bottom: 20px;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+    }
+    .report-card p {
+        font-size: 1.2em;
+        line-height: 1.8;
+        color: #333;
+        text-align: left;
+    }
+    .warning {
+        margin-top: 30px;
+        font-weight: 600;
+        color: #c0392b;
+        border: 1px solid #f9e3e3;
+        background-color: #fdf0f0;
+        padding: 15px;
+        border-radius: 8px;
+    }
+</style>
+
+<div class="report-card">
+    <h1>{{ title }}</h1>
+    <p>{{ advice }}</p>
+
+    {% if result_type != 'Normal' %}
+    <div class="warning">
+        🚨 **MEDICAL DISCLAIMER:** This is an AI-generated analysis. Do not use this report for self-diagnosis. You must consult a qualified physician immediately.
+    </div>
+    {% else %}
+    <div class="warning" style="color:#004085; background-color:#cce5ff; border: 1px solid #cce5ff;">
+        **REMINDER:** This tool is for educational purposes only. Always consult a healthcare professional for diagnosis.
+    </div>
+    {% endif %}
+
+    <a href="{% url 'classify_sound' %}" class="primary-btn" style="margin-top: 40px;">New Analysis</a>
+</div>
+{% endblock %}

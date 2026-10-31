@@ -1,0 +1,12 @@
+# Python virtual environment
+pneumonia_detector/pneumonia_detector/myenv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# IDE
+.vscode/
+
+# Jupyter
+.ipynb_checkpoints/

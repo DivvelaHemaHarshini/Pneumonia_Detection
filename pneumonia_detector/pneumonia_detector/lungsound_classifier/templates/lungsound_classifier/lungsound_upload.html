@@ -1,0 +1,108 @@
+{% extends 'classifier/base.html' %}
+{% block content %}
+
+<style>
+    .upload-box {
+        text-align: center;
+        padding: 40px 20px;
+    }
+    .upload-box h1 {
+        color: #333;
+        margin-bottom: 15px;
+    }
+    .upload-box p {
+        color: #666;
+        max-width: 500px;
+        margin: 0 auto 30px auto;
+    }
+    .file-input-wrapper {
+        border: 2px dashed #f6b26b;
+        padding: 40px;
+        border-radius: 10px;
+        background-color: #fffcf7;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        display: inline-block;
+        width: 100%;
+        max-width: 400px;
+    }
+    .file-input-wrapper:hover {
+        background-color: #fff8f0;
+    }
+    input[type="file"] {
+        display: none;
+    }
+    .file-input-label {
+        font-weight: 600;
+        color: #e67e22;
+    }
+
+    .alert {
+        padding: 15px 20px;
+        margin: 20px auto;
+        border-radius: 8px;
+        font-weight: 500;
+        width: 90%;
+        max-width: 600px;
+        text-align: center;
+        animation: fadeIn 0.4s ease-in-out;
+    }
+    .alert-success {
+        background-color: #e6f4ea;
+        border: 1px solid #2ecc71;
+        color: #27ae60;
+    }
+    .alert-error {
+        background-color: #fdecea;
+        border: 1px solid #e74c3c;
+        color: #c0392b;
+    }
+    .alert-info {
+        background-color: #eef5ff;
+        border: 1px solid #5dade2;
+        color: #2e86c1;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<div class="upload-box">
+    <h1>AI-Powered Lung Sound Analysis</h1>
+    <p>Upload a lung sound recording, and our AI model will analyze it for abnormalities.</p>
+
+    {% if messages %}
+        {% for message in messages %}
+            {% if "signed" not in message|stringformat:"s" and "successfully signed" not in message|stringformat:"s" %}
+                <div class="alert 
+                            {% if message.tags == 'error' %}alert-error
+                            {% elif message.tags == 'success' %}alert-success
+                            {% else %}alert-info{% endif %}">
+                    {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="audio-upload" class="file-input-wrapper">
+            <span class="file-input-label">Click here to choose an audio file</span>
+        </label>
+        <input id="audio-upload" type="file" name="audio_upload" accept="audio/*" required onchange="this.form.submit()">
+    </form>
+</div>
+
+<script>
+    setTimeout(() => {
+        document.querySelectorAll('.alert').forEach(el => {
+            el.style.transition = 'opacity 0.5s';
+            el.style.opacity = '0';
+            setTimeout(() => el.remove(), 500);
+        });
+    }, 4000);
+</script>
+
+{% endblock %}
